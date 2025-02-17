@@ -1,22 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import FlashCard from './FlashCard'
-import { flashcards } from './flashcards'
+import { useState } from 'react';
+import './App.css';
+import FlashCard from './FlashCard';
+import { flashcards } from './flashcards';
 
 function App() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const handleNext = () => {
+    if (currentIndex < flashcards.length - 1) {
+      setCurrentIndex(currentIndex + 1);
+    } else {
+      setCurrentIndex(0); // Loop back to the first card
+    }
+  };
 
   return (
-    <>
+    <div className="App">
       <h1>Flash Cards</h1>
       <div className="flashcards-container">
-        {flashcards.map((card, index) => (
-          <FlashCard key={index} question={card.question} answer={card.answer} />
-        ))}
+        <FlashCard 
+          question={flashcards[currentIndex].question} 
+          answer={flashcards[currentIndex].answer} 
+        />
       </div>
-    </>
-  )
+      <button className="next-button" onClick={handleNext}>Next</button>
+    </div>
+  );
 }
 
-export default App
+export default App;
